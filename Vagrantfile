@@ -22,7 +22,7 @@ Vagrant.configure(2) do |config|
     vb.cpus = settings["cpus"] ||= 2
     
     # Do not use official Ubuntu box, broken in many ways https://bugs.launchpad.net/cloud-images/+bug/1569237
-    override.vm.box = "bento/ubuntu-16.04"
+    override.vm.box = "bento/ubuntu-18.04"
     override.vm.network "private_network", type: "dhcp"
 
     # override.vm.network :forwarded_port, host: 2433, guest: 1433  # SQLServer
@@ -34,7 +34,8 @@ Vagrant.configure(2) do |config|
     end
 
     dbFolder = settings["dbPath"] ||= "."
-    override.vm.synced_folder dbFolder, "/var/opt/mssql/data/", disabled: false
+    # override.vm.synced_folder dbFolder, "/var/opt/mssql/data/backup", disabled: false
+    override.vm.synced_folder dbFolder, "/home/database", disabled: false
   end
 
   # scripts = [ "bootstrap.sh" ]

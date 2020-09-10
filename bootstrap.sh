@@ -12,21 +12,27 @@ export DEBIAN_FRONTEND="noninteractive"
 sudo sed -i "s/^127\.0\.0\.1.*/127.0.0.1 localhost $HOSTNAME/g" /etc/hosts
 # Install pre-requisites
 echo "Updating Linux Core Files"
-sudo apt-get -y -qq update
+sudo apt-get clean
+sudo apt-get -y update
+
 ## Ubuntu 16.04 does not deliver add-apt-repository by default
-sudo apt-get -y -qq install curl software-properties-common
+echo "Installing Software Properties Common"
+sudo apt-get -y install curl software-properties-common
+
 # Pre-installation
+echo "Downloading Microsoft Packages"
 curl -s -S --retry 3 https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
 ## Repository Microsoft SQL Server
 sudo add-apt-repository "$(curl -s -S --retry 3 https://packages.microsoft.com/config/ubuntu/16.04/mssql-server-2017.list)"
+
 ## Repository SQL Server command-line tools
 sudo add-apt-repository "$(curl -s -S --retry 3 https://packages.microsoft.com/config/ubuntu/16.04/prod.list)"
-sudo apt-get -y -qq update
+sudo apt-get -y update
 sudo -E bash -c 'apt-get -y -qq install mssql-server'
 sudo -E bash -c 'apt-get -y -qq install mssql-tools'
 # Clean up
-sudo apt-get -y -qq autoremove
-sudo apt-get -y -qq clean
+sudo apt-get -y autoremove
+sudo apt-get -y clean
 # Post-installation
 echo "SQLServer: running /opt/mssql/bin/mssql-conf -n setup"
 echo "SQLServer: MSSQL_PID=$MSSQL_PID"
