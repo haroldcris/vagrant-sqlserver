@@ -1,0 +1,12 @@
+---
+memory: 2096
+cpus: 2
+
+vmName: "linux-mssql"
+
+dbPath: "D:\\_SQLDatabase"
+
+# Ports to forward to the host.
+ports:
+  - host: 2433
+    guest: 1433
